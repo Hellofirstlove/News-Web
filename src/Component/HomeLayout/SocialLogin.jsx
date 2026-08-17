@@ -4,7 +4,7 @@ import { PiGithubLogoBold } from 'react-icons/pi'
 
 const SocialLogin = () => {
   return (
-    <div>
+    <div className='p-4'>
         <h2 className='font-bold mb-5'>Login With</h2>
         <div className='space-y-3'>
             <button className='btn btn-outline btn-secondary w-full'> <GrGoogle size={24}/> Login With Google..</button>
