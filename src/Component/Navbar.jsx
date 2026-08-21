@@ -5,14 +5,27 @@ import { AuthContext } from '../provider/AuthProvider';
 
 const Navbar = () => {
     const { user, logOut } = use(AuthContext);
-    // Controls the mobile hamburger menu open/close state
     const [menuOpen, setMenuOpen] = useState(false);
-    // Controls the categories sub-accordion in mobile menu
-    const [catOpen, setCatOpen] = useState(false);
-    // Holds the fetched category list for mobile menu
+    const [catOpen, setCatOpen]   = useState(false);
     const [categories, setCategories] = useState([]);
 
-    // Fetch categories once on mount so mobile users can browse them
+    // ── Dark Mode ───────────────────────────────────────────────
+    // Read saved theme from localStorage (default = "light")
+    const [theme, setTheme] = useState(
+        () => localStorage.getItem("dn-theme") || "light"
+    );
+
+    // Apply theme to <html> whenever it changes
+    useEffect(() => {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("dn-theme", theme);
+    }, [theme]);
+
+    const toggleTheme = () =>
+        setTheme(prev => (prev === "light" ? "dark" : "light"));
+    // ────────────────────────────────────────────────────────────
+
+    // Fetch categories for the mobile dropdown
     useEffect(() => {
         fetch("/categories.json")
             .then(res => res.json())
@@ -28,7 +41,6 @@ const Navbar = () => {
 
     const closeMenu = () => setMenuOpen(false);
 
-    // Main nav links — reused for desktop row and mobile dropdown
     const navLinks = (
         <>
             <NavLink to="/" onClick={closeMenu}
@@ -48,58 +60,73 @@ const Navbar = () => {
 
     return (
         <div className='relative'>
-            {/* ── Top bar ── */}
-            <div className='flex justify-between items-center px-4 py-2'>
-                {/* User email — desktop only */}
-                <div className="hidden lg:block text-sm text-gray-500">
-                    {user && user.email}
-                </div>
+            {/* ── Top bar — constrained to match main content width ── */}
+            <div className='w-11/12 mx-auto'>
+                <div className='grid grid-cols-3 items-center py-2'>
 
-                {/* Desktop nav links — hidden on mobile */}
-                <div className='hidden lg:flex gap-5 text-xl text-accent'>
-                    {navLinks}
-                </div>
+                    {/* Col 1 — left spacer */}
+                    <div></div>
 
-                {/* Right: avatar + login/logout + hamburger */}
-                <div className='flex items-center gap-3'>
-                    <img
-                        className="w-10 rounded-full"
-                        src={user ? user.photoURL : userIcon}
-                        alt="user avatar"
-                    />
-                    {user ? (
-                        <button onClick={handleLogOut} className="btn btn-primary btn-sm px-6">LogOut</button>
-                    ) : (
-                        <Link to="/auth/login" className="btn btn-primary btn-sm px-6">Login</Link>
-                    )}
+                    {/* Col 2 — perfectly centered nav links (desktop only) */}
+                    <div className='hidden lg:flex justify-center gap-6 text-xl text-accent'>
+                        {navLinks}
+                    </div>
 
-                    {/* Hamburger — visible only on mobile */}
-                    <button
-                        className="lg:hidden btn btn-ghost btn-sm text-2xl"
-                        onClick={() => setMenuOpen(prev => !prev)}
-                        aria-label="Toggle menu"
-                    >
-                        {menuOpen ? '✕' : '☰'}
-                    </button>
-                </div>
-            </div>
+                    {/* Col 2 mobile — empty placeholder so grid stays 3-col */}
+                    <div className='lg:hidden'></div>
+
+                    {/* Col 3 — theme toggle + avatar + login/logout + hamburger */}
+                    <div className='flex items-center justify-end gap-3'>
+
+                        {/* 🌙 / ☀️ Toggle */}
+                        <button
+                            onClick={toggleTheme}
+                            className="btn btn-ghost btn-sm text-xl"
+                            aria-label="Toggle dark mode"
+                            title={theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
+                        >
+                            {theme === "light" ? "🌙" : "☀️"}
+                        </button>
+
+                        <img
+                            className="w-10 rounded-full"
+                            src={user ? user.photoURL : userIcon}
+                            alt="user avatar"
+                        />
+                        {user ? (
+                            <button onClick={handleLogOut} className="btn btn-primary btn-sm px-6">LogOut</button>
+                        ) : (
+                            <Link to="/auth/login" className="btn btn-primary btn-sm px-6">Login</Link>
+                        )}
+
+                        {/* Hamburger — mobile only */}
+                        <button
+                            className="lg:hidden btn btn-ghost btn-sm text-2xl"
+                            onClick={() => setMenuOpen(prev => !prev)}
+                            aria-label="Toggle menu"
+                        >
+                            {menuOpen ? '✕' : '☰'}
+                        </button>
+                    </div>
+
+                </div>{/* end grid */}
+            </div>{/* end w-11/12 */}
+
 
             {/* ── Mobile dropdown ── */}
             {menuOpen && (
                 <div className='lg:hidden absolute top-full left-0 w-full bg-base-100 shadow-xl z-50 border-t border-base-200'>
-
-                    {/* Page links */}
                     <div className='flex flex-col gap-1 px-6 py-4 text-lg text-accent'>
                         {navLinks}
                     </div>
 
                     <div className='divider my-0 px-4'></div>
 
-                    {/* ── Collapsible Categories section ── */}
+                    {/* Categories accordion */}
                     <div className='px-4 pb-4'>
                         <button
                             onClick={() => setCatOpen(prev => !prev)}
-                            className='w-full flex justify-between items-center py-3 text-base font-bold text-gray-700'
+                            className='w-full flex justify-between items-center py-3 text-base font-bold text-base-content'
                         >
                             <span>📂 Browse Categories</span>
                             <span>{catOpen ? '▲' : '▼'}</span>
@@ -123,12 +150,7 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    {/* Email when logged in */}
-                    {user && (
-                        <div className='px-6 py-3 border-t border-base-200'>
-                            <p className="text-sm text-gray-400">{user.email}</p>
-                        </div>
-                    )}
+
                 </div>
             )}
         </div>

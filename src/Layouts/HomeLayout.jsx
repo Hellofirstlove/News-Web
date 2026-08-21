@@ -6,6 +6,7 @@ import Navbar from '../Component/Navbar'
 import LeftSide from '../Component/HomeLayout/LeftSide'
 import RightSide from '../Component/HomeLayout/RightSide'
 import Loading from '../Component/Loading'
+import ScrollToTop from '../Component/ScrollToTop'
 
 const HomeLayout = () => {
     const { state } = useNavigation();
@@ -35,6 +36,8 @@ const HomeLayout = () => {
                     <RightSide></RightSide>
                 </aside>
             </main>
+            {/* Scroll-to-top button — visible on all screen sizes after 300px scroll */}
+            <ScrollToTop />
         </div>
     )
 }

@@ -3,6 +3,7 @@ import Header from '../Header'
 import RightSide from '../HomeLayout/RightSide';
 import NewsDetailsCard from '../NewsDetailsCard';
 import { useLoaderData, useParams } from 'react-router';
+import ScrollToTop from '../ScrollToTop';
 
 const NewsDetails = () => {
     const data = useLoaderData();
@@ -31,6 +32,7 @@ const NewsDetails = () => {
                     <RightSide></RightSide>
                 </aside>
             </main>
+            <ScrollToTop />
         </div>
     )
 }

@@ -9,9 +9,8 @@ const NewsDetailsCard = ({ news }) => {
         src={news.image_url}
         alt={news.title}
       />
-      <h2 className="text-xl sm:text-2xl font-semibold">{news.title}</h2>
-
-      <p className="text-sm sm:text-base leading-7 text-gray-600">{news.details}</p>
+      <h2 className="text-xl sm:text-2xl font-semibold text-base-content">{news.title}</h2>
+      <p className="text-sm sm:text-base leading-7 text-base-content/70">{news.details}</p>
       <Link className="btn btn-secondary btn-sm sm:btn-md" to={`/category/${news.category_id}`}>
         Back to Category
       </Link>
