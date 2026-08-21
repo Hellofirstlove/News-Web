@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../Header'
 import RightSide from '../HomeLayout/RightSide';
-import RinghtDown from '../HomeLayout/RightDown';
 import NewsDetailsCard from '../NewsDetailsCard';
 import { useLoaderData, useParams } from 'react-router';
 
@@ -14,19 +13,22 @@ const NewsDetails = () => {
         const newsDetails = data.find((singleNews) => singleNews.id == id);
         setNews(newsDetails);
     }, [data, id]);
+
     return (
         <div>
             <header className="py-3">
                 <Header></Header>
             </header>
-            <main className="w-11/12 mx-auto grid grid-cols-12 gap-5 py-10">
-                <section className="col-span-9">
-                    <h2 className="font-bold mb-5">News Details</h2>
-                    <NewsDetailsCard news={news}></NewsDetailsCard>
+            {/* Single column on mobile, 12-col grid on lg with sidebar */}
+            <main className="w-11/12 mx-auto grid grid-cols-1 lg:grid-cols-12 gap-5 py-6 lg:py-10">
+                {/* Main article — full width on mobile, 9 cols on lg */}
+                <section className="col-span-1 lg:col-span-9">
+                    <h2 className="font-bold mb-5 text-lg sm:text-xl">News Details</h2>
+                    {news && news.id && <NewsDetailsCard news={news}></NewsDetailsCard>}
                 </section>
-                <aside className="col-span-3">
+                {/* Sidebar — hidden on mobile, visible on lg */}
+                <aside className="hidden lg:block lg:col-span-3">
                     <RightSide></RightSide>
-                    <RinghtDown></RinghtDown>
                 </aside>
             </main>
         </div>
@@ -34,5 +36,6 @@ const NewsDetails = () => {
 }
 
 export default NewsDetails
+
 
 

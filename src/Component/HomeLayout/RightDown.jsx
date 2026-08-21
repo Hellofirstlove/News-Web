@@ -2,26 +2,26 @@ const newsItems = [
   {
     id: 1,
     image:
-      "https://images.unsplash.com/photo-1497215842964-222b430dc094?auto=format&fit=crop&w=800&q=80",
-    title: "Bayern Slams Authorities Over Flight Delay to Club World Cup",
+      "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=800&q=80",
+    title: "Bangladesh Cricket Team Reaches Asia Cup Final for First Time",
     category: "Sports",
-    date: "Jan 4, 2022",
+    date: "Aug 18, 2025",
   },
   {
     id: 2,
     image:
-      "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80",
-    title: "Bayern Slams Authorities Over Flight Delay to Club World Cup",
-    category: "Sports",
-    date: "Jan 4, 2022",
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+    title: "Meta Unveils Its Most Powerful AI Model to Date, Rivals GPT-4",
+    category: "Technology",
+    date: "Aug 15, 2025",
   },
   {
     id: 3,
     image:
-      "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=800&q=80",
-    title: "Bayern Slams Authorities Over Flight Delay to Club World Cup",
-    category: "Sports",
-    date: "Jan 4, 2022",
+      "https://images.unsplash.com/photo-1600775508114-5c30cf911a40?auto=format&fit=crop&w=800&q=80",
+    title: "Dhaka City Corporation Launches Smart Traffic Management System",
+    category: "National",
+    date: "Aug 12, 2025",
   },
 ];
 
